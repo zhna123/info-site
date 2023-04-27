@@ -12,15 +12,15 @@ import * as fs from 'fs/promises';
 const server = http.createServer( async (req, res) => {
 
   switch (req.url) {
-    case '/index.html':
+    case '/':
       res.writeHead(200, {'Content-Type': 'text/html'});
       res.write(await read('./index.html'));
       break;
-    case '/about.html':
+    case '/about':
       res.writeHead(200, {'Content-Type': 'text/html'});
       res.write(await read('./about.html'));
       break;
-    case '/contact-me.html':
+    case '/contact-me':
       res.writeHead(200, {'Content-Type': 'text/html'});
       res.write(await read('./contact-me.html'));
       break;
@@ -37,7 +37,7 @@ const server = http.createServer( async (req, res) => {
  
 });
 
-server.listen(8000)
+server.listen(8080)
 
 async function read(path) {
   try {
