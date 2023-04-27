@@ -29,6 +29,10 @@ app.get("/style.css", (req, res) => {
   res.sendFile("style.css", { root: __dirname })
 })
 
+app.use((req, res, next) => {
+  res.status(404).sendFile("404.html", { root: __dirname })
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`)
 })
