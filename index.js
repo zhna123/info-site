@@ -1,4 +1,4 @@
-// node server file
+// use express to serve file
 /*
   localhost:8080 should take users to index.html
   localhost:8080/about should take users to about.html
@@ -6,43 +6,30 @@
   404.html should display any time the user tries to go to a page not listed above.
 */
 
-import http from 'http';
-import * as fs from 'fs/promises';
+import express from "express";
+import path from "path"
 
-const server = http.createServer( async (req, res) => {
+const app = express();
+const port = 8080;
+const __dirname = path.resolve();
 
-  switch (req.url) {
-    case '/index.html':
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(await read('./index.html'));
-      break;
-    case '/about.html':
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(await read('./about.html'));
-      break;
-    case '/contact-me.html':
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(await read('./contact-me.html'));
-      break;
-    case '/style.css':
-      res.writeHead(200, {'Content-Type': 'text/css'});
-      res.write(await read('./style.css'));
-      break;
-    default:
-      res.writeHead(404, {'Content-Type': 'text/html'});
-      res.write(await read('./404.html'));
-      break;
-  }
-  res.end();
- 
-});
+app.get("/", (req, res) => {
+  res.sendFile("index.html", { root: __dirname }); 
+}) 
 
-server.listen(8000)
+app.get("/about", (req, res) => {
+  res.sendFile("about.html", { root: __dirname })
+})
 
-async function read(path) {
-  try {
-    return await fs.readFile(path, { encoding: 'utf-8'});
-  } catch (err) {
-    console.log('reading error' + err);
-  }
-}
+app.get("/contact-me", (req, res) => {
+  res.sendFile("contact-me.html", { root: __dirname })
+})
+
+app.get("/style.css", (req, res) => {
+  res.sendFile("style.css", { root: __dirname })
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}!`)
+})
+
